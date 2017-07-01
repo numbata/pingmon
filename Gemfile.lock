@@ -1,0 +1,84 @@
+GIT
+  remote: git://github.com/krakatoa/icmp4em.git
+  revision: 0adcd51c57c328bb975daa4916ed8e5debc96a22
+  ref: 0adcd51c57c328bb975daa4916ed8e5debc96a22
+  specs:
+    icmp4em (0.0.3)
+      eventmachine
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    daemons (1.2.4)
+    em-pg-client (0.3.4)
+      eventmachine (~> 1.0.0)
+      pg (>= 0.17.0)
+    eventmachine (1.0.9.1)
+    fakeweb (1.3.0)
+    foreman (0.84.0)
+      thor (~> 0.19.1)
+    metaclass (0.0.4)
+    minitest (5.10.2)
+    mocha (1.2.1)
+      metaclass (~> 0.0.1)
+    multi_json (1.12.1)
+    mustermann (1.0.0)
+    oj (3.2.0)
+    oj_mimic_json (1.0.1)
+    pg (0.21.0)
+    rack (2.0.3)
+    rack-protection (2.0.0)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rake (12.0.0)
+    sequel (4.48.0)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
+    thin (1.7.1)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (>= 1, < 3)
+    thor (0.19.4)
+    tilt (2.0.7)
+    websocket (1.2.4)
+    websocket-eventmachine-base (1.2.0)
+      eventmachine (~> 1.0)
+      websocket (~> 1.0)
+      websocket-native (~> 1.0)
+    websocket-eventmachine-client (1.2.0)
+      websocket-eventmachine-base (~> 1.0)
+    websocket-eventmachine-server (1.0.1)
+      websocket-eventmachine-base (~> 1.0)
+    websocket-native (1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  em-pg-client (~> 0.3.4)
+  eventmachine
+  fakeweb
+  foreman
+  icmp4em!
+  minitest
+  mocha
+  multi_json
+  oj
+  oj_mimic_json
+  rack-test
+  rake
+  sequel
+  sinatra
+  thin
+  websocket-eventmachine-client
+  websocket-eventmachine-server
+
+RUBY VERSION
+   ruby 2.4.0p0
+
+BUNDLED WITH
+   1.14.6

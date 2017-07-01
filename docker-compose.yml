@@ -1,0 +1,69 @@
+version: "3.2"
+services:
+  api:
+    build: .
+    environment: &environment
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=pingmon
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=
+      - PUMA_THREADS=50
+      - PUMA_PORT=8080
+      - PUMA_HOST=0.0.0.0
+      - BUNDLE_PATH=/bundle_cache
+      - APP_ENV=development
+      - PINGSTAT_MASTER=master
+    volumes:
+      - .:/pingmon
+      - ~/.ssh:/root/.ssh
+      - ~/.bash_history:/root/.ash_history
+      - ~/.gitconfig:/root/.gitconfig
+      - bundle_cache:/bundle_cache
+    depends_on:
+      - db
+    networks:
+      - default
+      - private_network
+    ports:
+      - "8080:8080"
+    logging: &logging
+      options:
+        max-size: "1m"
+        max-file: "1"
+    command: sh -c "foreman start api"
+  master:
+    build: .
+    environment: *environment
+    networks:
+      - private_network
+    depends_on:
+      - db
+    logging: *logging
+    command: sh -c "foreman start master"
+  worker:
+    build: .
+    environment: *environment
+    networks:
+      - private_network
+    depends_on:
+      - db
+    logging: *logging
+    command: sh -c "foreman start worker"
+  db:
+    image: postgres:9.5-alpine
+    environment: *environment
+    networks:
+      - private_network
+    logging: *logging
+  bundle_cache:
+    image: busybox
+    volumes:
+      - bundle_cache:/bundle_cache
+volumes:
+  bundle_cache:
+
+networks:
+  private_network:
+    internal: true
+
