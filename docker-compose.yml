@@ -1,6 +1,6 @@
 version: "3.2"
 services:
-  api:
+  master:
     build: .
     environment: &environment
       - POSTGRES_HOST=db
@@ -9,11 +9,13 @@ services:
       - POSTGRES_USERNAME=postgres
       - POSTGRES_PASSWORD=
       - PUMA_THREADS=50
-      - PUMA_PORT=8080
-      - PUMA_HOST=0.0.0.0
+      - WEB_PORT=8080
+      - WEB_HOST=0.0.0.0
+      - WS_HOST=0.0.0.0
+      - MASTER_HOST=master
+      - MASTER_PORT=8081
       - BUNDLE_PATH=/bundle_cache
       - APP_ENV=development
-      - PINGSTAT_MASTER=master
     volumes:
       - .:/pingmon
       - ~/.ssh:/root/.ssh
@@ -27,19 +29,12 @@ services:
       - private_network
     ports:
       - "8080:8080"
+    expose:
+      - "8081"
     logging: &logging
       options:
         max-size: "1m"
         max-file: "1"
-    command: sh -c "foreman start api"
-  master:
-    build: .
-    environment: *environment
-    networks:
-      - private_network
-    depends_on:
-      - db
-    logging: *logging
     command: sh -c "foreman start master"
   worker:
     build: .
@@ -48,6 +43,7 @@ services:
       - private_network
     depends_on:
       - db
+      - master
     logging: *logging
     command: sh -c "foreman start worker"
   db:

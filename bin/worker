@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+STDOUT.sync = true
+require_relative "../daemons/worker/run.rb"

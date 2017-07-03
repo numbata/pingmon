@@ -18,6 +18,4 @@ RUN bundle config git.allow_insecure true
 
 WORKDIR /pingmon
 
-EXPOSE 8080
-
 CMD ["sh"]
