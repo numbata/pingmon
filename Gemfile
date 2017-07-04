@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.4"
+ruby '2.4'
 
 gem 'eventmachine'
 gem 'icmp4em', github: 'krakatoa/icmp4em', ref: '0adcd51c57c328bb975daa4916ed8e5debc96a22'

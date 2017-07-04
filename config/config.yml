@@ -1,0 +1,25 @@
+---
+default: &default
+  :database:
+    :adapter: postgres
+    :host: <%= ENV['POSTGRES_HOST'] %>
+    :port: <%= ENV['POSTGRES_PORT'] %>
+    :dbname: <%= ENV['POSTGRES_DB'] %>
+    :user: <%= ENV['POSTGRES_USERNAME'] %>
+    :password: <%= ENV['POSTGRES_PASSWORD'] %>
+    :size: 5
+    :async_autoreconnect: true
+  :master:
+    :http:
+      :host: <%= ENV['WEB_HOST'] %>
+      :port: <%= ENV['WEB_PORT'] %>
+    :websocket:
+      :host: <%= ENV['WS_HOST'] %>
+      :port: <%= ENV['WS_PORT'] %>
+  :worker:
+    :master_host: <%= ENV['MASTER_HOST'] %>
+    :master_port: <%= ENV['MASTER_PORT'] %>
+development: &development
+  <<: *default
+test:
+  <<: *default

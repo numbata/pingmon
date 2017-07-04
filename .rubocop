@@ -3,11 +3,6 @@ Rails:
 
 AllCops:
   TargetRubyVersion: 2.3
-  Exclude:
-    - 'config/**/*'
-    - 'test/**/*'
-    - '**/*.haml'
-    - 'bin/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
