@@ -2,8 +2,6 @@ require 'sinatra/base'
 require_relative './icmp_manager'
 
 class WebApiApp < Sinatra::Base
-  set :bind, ENV["HOST"]
-
   get '/host/:host/statistic' do |host|
     content_type :json
     from = params[:from]
@@ -13,8 +11,8 @@ class WebApiApp < Sinatra::Base
     return status(404) unless host
 
     query = IcmpResult.by_host(host)
-    query = query.from(from) if from
-    query = query.to(from) if to
+    query = query.from(Time.at(from.to_i)) if from
+    query = query.to(Time.at(to.to_i)) if to
 
     result = query.overall_statistics.first.values
 

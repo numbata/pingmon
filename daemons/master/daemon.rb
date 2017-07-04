@@ -12,11 +12,12 @@ EM.run do
   Rack::Server.start(
     app: dispatch,
     server: 'thin',
-    Host: Config['master']['http']['host'],
-    Port: Config['master']['http']['port'],
+    Host: Config[:master][:http][:host],
+    Port: Config[:master][:http][:port],
     signals: false
   )
-  WebSocket::EventMachine::Server.start(Config['master']['websocket']) do |worker_connection|
+
+  WebSocket::EventMachine::Server.start(Config[:master][:websocket]) do |worker_connection|
     IcmpManager::Worker.new(worker_connection)
   end
 end

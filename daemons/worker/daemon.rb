@@ -5,9 +5,10 @@ require_relative './icmp_worker'
 
 EM.run do
   config = {
-    host: Config['worker']['master_host'],
-    port: Config['worker']['master_port']
+    host: Config[:worker][:master_host],
+    port: Config[:worker][:master_port]
   }
+
   ws = WebSocket::EventMachine::Client.connect(config)
 
   ws.onmessage do |data, _|

@@ -12,15 +12,13 @@ services:
       - WEB_PORT=8080
       - WEB_HOST=0.0.0.0
       - WS_HOST=0.0.0.0
+      - WS_PORT=8081
       - MASTER_HOST=master
       - MASTER_PORT=8081
       - BUNDLE_PATH=/bundle_cache
       - APP_ENV=development
     volumes:
       - .:/pingmon
-      - ~/.ssh:/root/.ssh
-      - ~/.bash_history:/root/.ash_history
-      - ~/.gitconfig:/root/.gitconfig
       - bundle_cache:/bundle_cache
     depends_on:
       - db
@@ -36,15 +34,20 @@ services:
         max-size: "1m"
         max-file: "1"
     command: sh -c "foreman start master"
-  worker: &worker
-    <<: *common
-    ports: []
+  worker:
+    build: .
+    environment: *environment
+    volumes:
+      - .:/pingmon
+      - bundle_cache:/bundle_cache
     depends_on:
       - db
       - master
+    networks:
+      - default
+      - private_network
+    logging: *logging
     command: sh -c "foreman start worker"
-  worker_second:
-    <<: *worker
   db:
     image: postgres:9.5-alpine
     environment: *environment

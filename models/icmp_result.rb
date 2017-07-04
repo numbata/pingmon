@@ -10,11 +10,11 @@ class IcmpResult < Sequel::Model
     end
 
     def from(from)
-      where{ created_at >= from.to_i }
+      where{ created_at >= from }
     end
 
     def to(to)
-      where{ created_at <= from.to_i }
+      where{ created_at <= to }
     end
 
     def overall_statistics

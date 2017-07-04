@@ -13,7 +13,7 @@ module Database
   end
 
   def self.config
-    Config['database']
+    Config[:database]
   end
 end
 
