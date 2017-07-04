@@ -1,5 +1,7 @@
+$LOAD_PATH.push(File.join(__FILE__, '..'))
 require_relative '../core/common.rb'
-require_relative 'web_api_app.rb'
+require 'web_api_app'
+require 'icmp_manager'
 require 'eventmachine'
 
 STDOUT.sync = true
@@ -22,21 +24,9 @@ EM.run do
     signals: false
   )
 
-  WebSocket::EventMachine::Server.start(host: ENV['WS_HOST'], port: ENV['MASTER_PORT']) do |ws|
-    ws.onopen do
-      puts "Client connected"
-    end
-
-    ws.onmessage do |msg, type|
-      puts "Received message: #{msg}"
-      ws.send msg, :type => type
-    end
-
-    ws.onclose do
-      puts "Client disconnected"
-    end
+  WebSocket::EventMachine::Server.start(host: ENV['WS_HOST'], port: ENV['MASTER_PORT']) do |worker_connection|
+    IcmpManager::Worker.new(worker_connection)
   end
-
 end
 
 Signal.trap('INT') { EventMachine.stop_event_loop }

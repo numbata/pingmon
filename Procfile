@@ -1,2 +1,2 @@
 master: bundle exec ./bin/master
-worker: bundle exec ruby ./bin/worker
+worker: bundle exec ./bin/worker

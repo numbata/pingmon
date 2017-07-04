@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-# Development box, not for production
+# For development only, not for production
 FROM ruby:2.4-alpine
 
 ENV LANG ru_RU.utf8
@@ -11,11 +11,15 @@ RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/reposito
     apk update && apk upgrade && \
     apk add --no-cache -u tzdata build-base git \
                           libpq postgresql-client postgresql-dev && \
-    rm -rf /var/cache/apk/*
-
-RUN gem install bundler
-RUN bundle config git.allow_insecure true
+    rm -rf /var/cache/apk/* && \
+    gem install bundler && \
+    bundle config git.allow_insecure true
 
 WORKDIR /pingmon
+
+COPY Gemfile Gemfile
+COPY Gemfile.lock Gemfile.lock
+
+RUN bundle
 
 CMD ["sh"]

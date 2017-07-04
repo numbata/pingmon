@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'icmp_manager'
 
 class WebApiApp < Sinatra::Base
   set :bind, ENV["HOST"]
@@ -8,15 +9,19 @@ class WebApiApp < Sinatra::Base
   end
 
   post '/watch' do
-    return status(422) unless params['ip']
-    MasterApiClient.watch(params['ip'])
+    host = params['host']
 
+    return status(422) unless host
+    return status(409) if IcmpManager.watched?(host)
+
+    IcmpManager.watch(host)
     status 201
   end
 
-  delete '/watch/:ip' do |ip|
-    MasterApiClient.unwatch(params['ip'])
+  delete '/watch/:host' do |host|
+    return status(404) unless IcmpManager.watched?(host)
 
+    IcmpManager.unwatch(host)
     status 204
   end
 end

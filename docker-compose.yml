@@ -1,6 +1,6 @@
 version: "3.2"
 services:
-  master:
+  master: &common
     build: .
     environment: &environment
       - POSTGRES_HOST=db
@@ -36,16 +36,15 @@ services:
         max-size: "1m"
         max-file: "1"
     command: sh -c "foreman start master"
-  worker:
-    build: .
-    environment: *environment
-    networks:
-      - private_network
+  worker: &worker
+    <<: *common
+    ports: []
     depends_on:
       - db
       - master
-    logging: *logging
     command: sh -c "foreman start worker"
+  worker_second:
+    <<: *worker
   db:
     image: postgres:9.5-alpine
     environment: *environment

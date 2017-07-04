@@ -22,6 +22,11 @@ end
 group :test do
   gem 'mocha', require: false
   gem 'minitest'
+  gem "minitest-stub-const"
+  gem "minitest-hooks", :require => "minitest/hooks/default"
   gem 'rack-test'
   gem 'fakeweb'
+  gem 'wrong'
+  gem 'factory_girl'
+  gem 'factory_girl_sequences'
 end
